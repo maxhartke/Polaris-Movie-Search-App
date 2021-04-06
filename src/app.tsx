@@ -48,6 +48,10 @@ export default function App() {
 		setInput(title);
 		getMovies(title);
 	}
+	function remove(movie: movie) {
+		let name = movie;
+		setNominatedMovies(nominatedMovies.filter((e) => e != movie));
+	}
 	return (
 		<AppProvider
 			i18n={{}}
@@ -93,12 +97,21 @@ export default function App() {
 					>
 						<Heading>Results for: {Input}</Heading>
 						{movies.map((movie, index) => (
-							<MovieCard
+							<div
 								key={index}
-								movie={movie}
-								buttonText="Select"
-								onClick={() => console.log("Select")}
-							></MovieCard>
+								onClick={() =>
+									setNominatedMovies((nominatedMovies) => [
+										...nominatedMovies,
+										movie,
+									])
+								}
+							>
+								<MovieCard
+									key={index}
+									movie={movie}
+									buttonText="Select"
+								></MovieCard>
+							</div>
 						))}
 					</div>
 					<div
@@ -107,12 +120,13 @@ export default function App() {
 					>
 						<Heading>Nominations:</Heading>
 						{nominatedMovies.map((movie, index) => (
-							<MovieCard
-								key={index}
-								movie={movie}
-								buttonText="Remove"
-								onClick={() => console.log("Remove")}
-							></MovieCard>
+							<div key={index} onClick={() => remove(movie)}>
+								<MovieCard
+									key={index}
+									movie={movie}
+									buttonText="Remove"
+								></MovieCard>
+							</div>
 						))}
 					</div>
 				</div>

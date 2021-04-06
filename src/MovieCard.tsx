@@ -3,11 +3,7 @@ import { useState } from "react";
 import { Button, Card, Subheading, Heading } from "@shopify/polaris";
 import { movie } from "./movie";
 
-const MovieCard = (props: {
-	movie: movie;
-	buttonText: string;
-	onClick: Function;
-}) => {
+const MovieCard = (props: { movie: movie; buttonText: string }) => {
 	return (
 		<div id={props.movie.imdbID} style={{ width: 450, marginBlock: 10 }}>
 			<Card sectioned>
@@ -36,9 +32,7 @@ const MovieCard = (props: {
 						</div>
 					</div>
 					<div style={{ justifyContent: "stretch" }}>
-						<Button primary onClick={() => props.onClick}>
-							{props.buttonText}
-						</Button>
+						<Button primary>{props.buttonText}</Button>
 					</div>
 				</div>
 			</Card>
