@@ -20,8 +20,8 @@ import MovieCard from "./MovieCard";
 
 export default function App() {
 	const [Input, setInput] = useState("");
-	const [movies, setMovies] = useState([]);
-	const [nominatedMovies, setNominatedMovies] = useState([]);
+	const [movies, setMovies] = React.useState<movie[]>([]);
+	const [nominatedMovies, setNominatedMovies] = React.useState<movie[]>([]);
 	function getMovies(title: string) {
 		var request = new XMLHttpRequest();
 		request.open(
@@ -44,12 +44,15 @@ export default function App() {
 		};
 		request.send();
 	}
-	function handleChange(title: string) {
+	function search(title: string) {
 		setInput(title);
 		getMovies(title);
 	}
+	const add = (movie: movie) => {
+		setNominatedMovies((nominatedMovies) => [...nominatedMovies, movie]);
+		setMovies(movies.filter((e) => e != movie));
+	};
 	function remove(movie: movie) {
-		let name = movie;
 		setNominatedMovies(nominatedMovies.filter((e) => e != movie));
 	}
 	return (
@@ -80,7 +83,7 @@ export default function App() {
 						label=""
 						placeholder="Search for title"
 						value={Input}
-						onChange={(value) => handleChange(value)}
+						onChange={(value) => search(value)}
 					></TextField>
 				</div>
 				<div
@@ -97,15 +100,7 @@ export default function App() {
 					>
 						<Heading>Results for: {Input}</Heading>
 						{movies.map((movie, index) => (
-							<div
-								key={index}
-								onClick={() =>
-									setNominatedMovies((nominatedMovies) => [
-										...nominatedMovies,
-										movie,
-									])
-								}
-							>
+							<div key={index} onClick={() => add(movie)}>
 								<MovieCard
 									key={index}
 									movie={movie}
