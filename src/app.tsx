@@ -26,7 +26,7 @@ export default function App() {
 		var request = new XMLHttpRequest();
 		request.open(
 			"GET",
-			"http://www.omdbapi.com/?s=" +
+			"https://www.omdbapi.com/?s=" +
 				title +
 				"&apikey=" +
 				process.env.REACT_APP_OMDB_API_KEY,
