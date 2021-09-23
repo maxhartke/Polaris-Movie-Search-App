@@ -1,9 +1,34 @@
 import React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Subheading, Heading } from "@shopify/polaris";
 import { movie } from "./movie";
 
+function getWindowDimensions() {
+	const { innerWidth: width } = window;
+	return {
+		width,
+	};
+}
+
+export function useWindowDimensions() {
+	const [windowDimensions, setWindowDimensions] = useState(
+		getWindowDimensions()
+	);
+
+	useEffect(() => {
+		function handleResize() {
+			setWindowDimensions(getWindowDimensions());
+		}
+
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
+
+	return windowDimensions;
+}
+
 const MovieCard = (props: { movie: movie; buttonText: string }) => {
+	const { width } = useWindowDimensions();
 	return (
 		<div id={props.movie.imdbID} style={{ width: 450, marginBlock: 10 }}>
 			<Card sectioned>

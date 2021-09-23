@@ -16,12 +16,13 @@ import {
 	TextField,
 } from "@shopify/polaris";
 import { movie } from "./movie";
-import MovieCard from "./MovieCard";
+import MovieCard, { useWindowDimensions } from "./MovieCard";
 
 export default function App() {
 	const [Input, setInput] = useState("");
 	const [movies, setMovies] = React.useState<movie[]>([]);
 	const [nominatedMovies, setNominatedMovies] = React.useState<movie[]>([]);
+	const { width } = useWindowDimensions();
 	function getMovies(title: string) {
 		var request = new XMLHttpRequest();
 		request.open(
@@ -55,6 +56,7 @@ export default function App() {
 	function remove(movie: movie) {
 		setNominatedMovies(nominatedMovies.filter((e) => e != movie));
 	}
+	console.log(width);
 	return (
 		<AppProvider
 			i18n={{}}
@@ -77,7 +79,7 @@ export default function App() {
 				<DisplayText size="medium">
 					<TextStyle variation="strong">Movie Search App</TextStyle>
 				</DisplayText>
-				<div style={{ marginBlock: 10 }}>
+				<div style={{ marginBlock: 10, width: width > 600 ? 1000 : 450 }}>
 					<TextField
 						type="text"
 						label=""
@@ -89,8 +91,8 @@ export default function App() {
 				<div
 					style={{
 						display: "flex",
-						flexDirection: "row",
-						width: 1000,
+						flexDirection: width > 600 ? "row" : "column",
+						width: width > 600 ? 1000 : 500,
 						marginBlock: 10,
 					}}
 				>
@@ -114,6 +116,7 @@ export default function App() {
 						className="nominated-movie-list"
 					>
 						<Heading>Nominations:</Heading>
+
 						{nominatedMovies.map((movie, index) => (
 							<div key={index} onClick={() => remove(movie)}>
 								<MovieCard
