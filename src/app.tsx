@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	AppProvider,
 	Button,
@@ -16,7 +16,31 @@ import {
 	TextField,
 } from "@shopify/polaris";
 import { movie } from "./movie";
-import MovieCard, { useWindowDimensions } from "./MovieCard";
+import MovieCard from "./MovieCard";
+
+function getWindowDimensions() {
+	const { innerWidth: width } = window;
+	return {
+		width,
+	};
+}
+
+export function useWindowDimensions() {
+	const [windowDimensions, setWindowDimensions] = useState(
+		getWindowDimensions()
+	);
+
+	useEffect(() => {
+		function handleResize() {
+			setWindowDimensions(getWindowDimensions());
+		}
+
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
+
+	return windowDimensions;
+}
 
 export default function App() {
 	const [Input, setInput] = useState("");
@@ -56,7 +80,6 @@ export default function App() {
 	function remove(movie: movie) {
 		setNominatedMovies(nominatedMovies.filter((e) => e != movie));
 	}
-	console.log(width);
 	return (
 		<AppProvider
 			i18n={{}}
@@ -76,10 +99,19 @@ export default function App() {
 			}}
 		>
 			<Page>
-				<DisplayText size="medium">
-					<TextStyle variation="strong">Movie Search App</TextStyle>
-				</DisplayText>
-				<div style={{ marginBlock: 10, width: width > 600 ? 1000 : 450 }}>
+				<div style={{ marginLeft: width > 600 ? 0 : 10 }}>
+					<DisplayText size="medium">
+						<TextStyle variation="strong">Movie Search App</TextStyle>
+					</DisplayText>
+				</div>
+
+				<div
+					style={{
+						marginBlock: 10,
+						width: width > 600 ? 1000 : 350,
+						marginLeft: width > 600 ? 0 : 10,
+					}}
+				>
 					<TextField
 						type="text"
 						label=""
@@ -92,8 +124,9 @@ export default function App() {
 					style={{
 						display: "flex",
 						flexDirection: width > 600 ? "row" : "column",
-						width: width > 600 ? 1000 : 500,
+						width: width > 600 ? 1000 : 350,
 						marginBlock: 10,
+						marginLeft: width > 600 ? 0 : 10,
 					}}
 				>
 					<div
@@ -116,7 +149,6 @@ export default function App() {
 						className="nominated-movie-list"
 					>
 						<Heading>Nominations:</Heading>
-
 						{nominatedMovies.map((movie, index) => (
 							<div key={index} onClick={() => remove(movie)}>
 								<MovieCard
