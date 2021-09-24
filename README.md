@@ -14,7 +14,7 @@ Clone repo and cd into project
 
 Get API key from [OMDB API](http://www.omdbapi.com) and create `.env` folder
 
-        touch .env
+    touch .env
 
 In `.env` folder add `REACT_APP_OMDB_API_KEY` and add your respective key
 
