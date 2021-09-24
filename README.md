@@ -21,4 +21,5 @@ In `.env` folder add `REACT_APP_OMDB_API_KEY` and add your respective key
     REACT_APP_OMDB_API_KEY=1234
 
 Add dependecies using `npm install` and then use `npm start` to run app
+
 Open <http://localhost:3000> to view it in the browser.
