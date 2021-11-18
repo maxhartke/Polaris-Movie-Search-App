@@ -17,7 +17,8 @@
     "@shopify/polaris": "^6.2.0",
     "react-scripts": "^4.0.3",
     "typescript": "^4.4.3",
-    "react": "^17.0.2"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "type": "module",
   "browserslist": {
